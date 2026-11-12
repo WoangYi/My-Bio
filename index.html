@@ -1076,9 +1076,9 @@ welcome to my personal space ✨</textarea>
                 </div>
 
                 <div>
-                    <label class="block text-[11px] text-white/60 mb-1">Dán link Video (Hỗ trợ Link YouTube 4K hoặc .mp4 / .webm):</label>
+                    <label class="block text-[11px] text-white/60 mb-1">Dán link Video hoặc nhập tên file nội bộ (VD: <code class="text-white">bg.mp4</code>):</label>
                     <div class="flex gap-2">
-                        <input id="input-video-url" type="url" placeholder="https://youtube.com/watch?v=... hoặc .mp4" class="flex-1 px-3 py-1.5 rounded-xl bg-black/50 border border-white/15 text-white">
+                        <input id="input-video-url" type="text" placeholder="bg.mp4 hoặc https://youtube.com/..." class="flex-1 px-3 py-1.5 rounded-xl bg-black/50 border border-white/15 text-white">
                         <button id="btn-apply-video" class="px-3 py-1.5 rounded-xl bg-white/15 hover:bg-white/25 text-white font-medium transition">Đổi Video</button>
                     </div>
                 </div>
@@ -1099,9 +1099,9 @@ welcome to my personal space ✨</textarea>
                         </button>
                     </div>
 
-                    <label class="block text-[11px] text-white/60">Hoặc dán link MP3 trực tiếp từ external sites:</label>
+                    <label class="block text-[11px] text-white/60">Dán link MP3 hoặc nhập tên file nội bộ (VD: <code class="text-white">music.mp3</code>):</label>
                     <div class="flex gap-2">
-                        <input id="input-audio-url" type="url" placeholder="https://.../audio.mp3" class="flex-1 px-3 py-1.5 rounded-xl bg-black/50 border border-white/15 text-white">
+                        <input id="input-audio-url" type="text" placeholder="music.mp3 hoặc https://.../audio.mp3" class="flex-1 px-3 py-1.5 rounded-xl bg-black/50 border border-white/15 text-white">
                         <button id="btn-apply-audio" class="px-3 py-1.5 rounded-xl bg-white/15 hover:bg-white/25 text-white font-medium transition">Đặt Nhạc MP3</button>
                     </div>
                     <input id="input-audio-file" type="file" accept="audio/*" class="w-full text-[11px] text-white/60 file:mr-2 file:py-1 file:px-2.5 file:rounded-lg file:border-0 file:bg-white/15 file:text-white cursor-pointer">
@@ -1309,9 +1309,9 @@ welcome to my personal space ✨</textarea>
                 "welcome to my personal space ✨"
             ],
             useVideoNativeAudio: false,
-            videoUrl: "https://assets.mixkit.co/videos/preview/mixkit-rain-falling-on-the-window-of-a-car-at-night-43124-large.mp4",
-            customAudioUrl: "https://cdn.pixabay.com/download/audio/2022/05/27/audio_1808fbf07a.mp3?filename=lofi-study-112191.mp3",
-            customAudioTitle: "Chill Lofi Background Music",
+            videoUrl: "bg.mp4",
+            customAudioUrl: "music.mp3",
+            customAudioTitle: "Background Music",
             customBadges: [],
             badgeStates: {
                 hypesquad_brilliance: true,
@@ -1393,11 +1393,12 @@ welcome to my personal space ✨</textarea>
         try {
             if (window.__BAKED_CONFIG__) {
                 state = Object.assign(state, window.__BAKED_CONFIG__);
-            }
-            const localSaved = localStorage.getItem("minimal_glass_bio_v3");
-            if (localSaved) {
-                const parsed = JSON.parse(localSaved);
-                state = Object.assign(state, parsed);
+            } else {
+                const localSaved = localStorage.getItem("minimal_glass_bio_v3");
+                if (localSaved) {
+                    const parsed = JSON.parse(localSaved);
+                    state = Object.assign(state, parsed);
+                }
             }
         } catch (e) {}
 
@@ -2442,6 +2443,10 @@ welcome to my personal space ✨</textarea>
             }
             if (state.videoUrl) {
                 applyBackgroundMedia(state.videoUrl);
+                document.getElementById("input-video-url").value = state.videoUrl;
+            }
+            if (state.customAudioUrl) {
+                document.getElementById("input-audio-url").value = state.customAudioUrl;
             }
 
             applyUsernameStyle();
